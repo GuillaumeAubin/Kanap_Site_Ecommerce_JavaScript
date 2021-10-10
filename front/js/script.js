@@ -1,8 +1,4 @@
-main();
-
-function main() {
-  getArticles();
-}
+getArticles();
 
 // Récupération des articles de l'API
 function getArticles() {
@@ -12,7 +8,7 @@ function getArticles() {
     })
     .catch((error) => {
         let items = document.querySelector("#items");
-        items.innerHTML = `Accès à l'API impossible, veuillez réessayer ultèrieurement.<br><br>Ou alors j'ai juste oublié de lancer "node server" sur le Terminal du back...`;
+        items.innerHTML = `Accès à l'API impossible, veuillez réessayer ultérieurement.<br><br>Ou alors j'ai juste oublié de lancer "node server" sur le Terminal du back...`;
     })
 
     // Répartition des données de l'API dans le DOM
@@ -48,5 +44,5 @@ function getArticles() {
             productDescription.classList.add("productName");
             productDescription.innerHTML = resultatAPI[article].description;
         }
-      });
+    });
 }
