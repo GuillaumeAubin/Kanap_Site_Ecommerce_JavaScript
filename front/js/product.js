@@ -67,7 +67,12 @@ function getArticle() {
         let optionsProduit = {
             idProduit: idProduct,
             couleurProduit: choixCouleur,
-            quantiteProduit: Number(choixQuantite)
+            quantiteProduit: Number(choixQuantite),
+            nomProduit: article.name,
+            prixProduit: article.price,
+            descriptionProduit: article.description,
+            imgProduit: article.imageUrl,
+            altImgProduit: article.altTxt
         };
 
         //Initialisation du local storage
