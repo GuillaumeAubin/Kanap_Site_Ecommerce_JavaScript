@@ -117,5 +117,3 @@ Pour consulter votre panier, cliquez sur OK`)){
         });
     });
 }
-
-//optionsProduit.nomProduit = produitLocalStorage.nomProduit && optionsProduit.couleurProduit == produitLocalStorage.couleurProduit

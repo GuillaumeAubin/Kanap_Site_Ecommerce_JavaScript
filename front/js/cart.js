@@ -41,6 +41,12 @@ for (let produit in produitLocalStorage){
     productItemContentTitlePrice.appendChild(productTitle);
     productTitle.innerHTML = produitLocalStorage[produit].nomProduit;
 
+    // Insertion de la couleur
+    let productColor = document.createElement("p");
+    productTitle.appendChild(productColor);
+    productColor.innerHTML = produitLocalStorage[produit].couleurProduit;
+    productColor.style.fontSize = "20px";
+
     // Insertion du prix
     let productPrice = document.createElement("p");
     productItemContentTitlePrice.appendChild(productPrice);
@@ -55,7 +61,7 @@ for (let produit in produitLocalStorage){
     let productItemContentSettingsQuantity = document.createElement("div");
     productItemContentSettings.appendChild(productItemContentSettingsQuantity);
     productItemContentSettingsQuantity.className = "cart__item__content__settings__quantity";
-
+    
     // Insertion de "Qté : "
     let productQte = document.createElement("p");
     productItemContentSettingsQuantity.appendChild(productQte);
@@ -108,27 +114,46 @@ productTotalPrice.innerHTML = totalPrice;
 console.log(totalPrice);
 
 // Modification d'une quantité de produit
+let qttModif = document.querySelectorAll(".itemQuantity");
 
+for (let k = 0; k < qttModif.length; k++){
+    qttModif[k].addEventListener("change" , (event) => {
+        event.preventDefault();
+
+        //Selection de l'element à modifier en fonction de son id ET sa couleur
+        let quantityModif = produitLocalStorage[k].quantiteProduit;
+        let qttModifValue = qttModif[k].valueAsNumber;
+        console.log(qttModifValue);
+        console.log(quantityModif);
+        const resultFind = produitLocalStorage.find((el) => el.qttModifValue !== quantityModif);
+        console.table(resultFind);
+        resultFind.quantiteProduit = quantityModif;
+        localStorage.setItem("produit", JSON.stringify(produitLocalStorage));
+        console.table(produitLocalStorage);
+      
+        /*
+        // refresh
+        window.location.href = "cart.html"*/
+    })
+}
 
 // Suppression d'un produit
 let btn_supprimer = document.querySelectorAll(".deleteItem");
-console.log(btn_supprimer);
 
 for (let j = 0; j < btn_supprimer.length; j++){
     btn_supprimer[j].addEventListener("click" , (event) => {
         event.preventDefault();
 
-        //Selection de l'id à supprimer
+        //Selection de l'element à supprimer en fonction de son id ET sa couleur
         let idDelete = produitLocalStorage[j].idProduit;
-        console.log("idDelete");
-        console.log(idDelete);
+        let colorDelete = produitLocalStorage[j].couleurProduit;
 
-        produitLocalStorage = produitLocalStorage.filter( el => el.idProduit !== idDelete);
-        console.log(produitLocalStorage);
-
+        produitLocalStorage = produitLocalStorage.filter( el => el.idProduit !== idDelete || el.couleurProduit !== colorDelete );
+        
         localStorage.setItem("produit", JSON.stringify(produitLocalStorage));
 
+        //Alerte produit supprimé et refresh
         alert("Ce produit a bien été supprimé du panier");
-        window.location.href = "cart.html";
+        window.location.href = "cart.html"
     })
 }
