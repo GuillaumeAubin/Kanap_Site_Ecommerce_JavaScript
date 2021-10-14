@@ -123,17 +123,16 @@ for (let k = 0; k < qttModif.length; k++){
         //Selection de l'element à modifier en fonction de son id ET sa couleur
         let quantityModif = produitLocalStorage[k].quantiteProduit;
         let qttModifValue = qttModif[k].valueAsNumber;
-        console.log(qttModifValue);
-        console.log(quantityModif);
+        
         const resultFind = produitLocalStorage.find((el) => el.qttModifValue !== quantityModif);
-        console.table(resultFind);
-        resultFind.quantiteProduit = quantityModif;
+
+        resultFind.quantiteProduit = qttModifValue;
+        produitLocalStorage[k].quantiteProduit = resultFind.quantiteProduit;
+
         localStorage.setItem("produit", JSON.stringify(produitLocalStorage));
-        console.table(produitLocalStorage);
       
-        /*
-        // refresh
-        window.location.href = "cart.html"*/
+        // refresh rapide
+        location.reload();
     })
 }
 
@@ -154,6 +153,6 @@ for (let j = 0; j < btn_supprimer.length; j++){
 
         //Alerte produit supprimé et refresh
         alert("Ce produit a bien été supprimé du panier");
-        window.location.href = "cart.html"
+        location.reload();
     })
 }
