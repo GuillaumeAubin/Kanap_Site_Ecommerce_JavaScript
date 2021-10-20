@@ -4,6 +4,7 @@ console.table(produitLocalStorage);
 const positionEmptyCart = document.querySelector("#cart__items");
 
 // Si le panier est vide
+function getCart(){
 if (produitLocalStorage === null || produitLocalStorage == 0) {
     const emptyCart = `<p>Votre panier est vide</p>`;
     positionEmptyCart.innerHTML = emptyCart;
@@ -88,71 +89,238 @@ for (let produit in produitLocalStorage){
     productSupprimer.className = "deleteItem";
     productSupprimer.innerHTML = "Supprimer";
 }
+}}
+getCart();
+
+function getTotals(){
+
+    // Récupération du total des quantités
+    var elemsQtt = document.getElementsByClassName('itemQuantity');
+    var myLength = elemsQtt.length,
+    totalQtt = 0;
+
+    for (var i = 0; i < myLength; ++i) {
+        totalQtt += elemsQtt[i].valueAsNumber;
+    }
+
+    let productTotalQuantity = document.getElementById('totalQuantity');
+    productTotalQuantity.innerHTML = totalQtt;
+    console.log(totalQtt);
+
+    // Récupération du prix total
+    totalPrice = 0;
+
+    for (var i = 0; i < myLength; ++i) {
+        totalPrice += (elemsQtt[i].valueAsNumber * produitLocalStorage[i].prixProduit);
+    }
+
+    let productTotalPrice = document.getElementById('totalPrice');
+    productTotalPrice.innerHTML = totalPrice;
+    console.log(totalPrice);
 }
-// Modification du total des quantités
-var elemsQtt = document.getElementsByClassName('itemQuantity');
-var myLength = elemsQtt.length,
-totalQtt = 0;
-
-for (var i = 0; i < myLength; ++i) {
-    totalQtt += elemsQtt[i].valueAsNumber;
-}
-
-let productTotalQuantity = document.getElementById('totalQuantity');
-productTotalQuantity.innerHTML = totalQtt;
-console.log(totalQtt);
-
-// Modification du prix total
-totalPrice = 0;
-
-for (var i = 0; i < myLength; ++i) {
-    totalPrice += (elemsQtt[i].valueAsNumber * produitLocalStorage[i].prixProduit);
-}
-
-let productTotalPrice = document.getElementById('totalPrice');
-productTotalPrice.innerHTML = totalPrice;
-console.log(totalPrice);
+getTotals();
 
 // Modification d'une quantité de produit
-let qttModif = document.querySelectorAll(".itemQuantity");
+function modifyQtt() {
+    let qttModif = document.querySelectorAll(".itemQuantity");
 
-for (let k = 0; k < qttModif.length; k++){
-    qttModif[k].addEventListener("change" , (event) => {
-        event.preventDefault();
+    for (let k = 0; k < qttModif.length; k++){
+        qttModif[k].addEventListener("change" , (event) => {
+            event.preventDefault();
 
-        //Selection de l'element à modifier en fonction de son id ET sa couleur
-        let quantityModif = produitLocalStorage[k].quantiteProduit;
-        let qttModifValue = qttModif[k].valueAsNumber;
+            //Selection de l'element à modifier en fonction de son id ET sa couleur
+            let quantityModif = produitLocalStorage[k].quantiteProduit;
+            let qttModifValue = qttModif[k].valueAsNumber;
+            
+            const resultFind = produitLocalStorage.find((el) => el.qttModifValue !== quantityModif);
+
+            resultFind.quantiteProduit = qttModifValue;
+            produitLocalStorage[k].quantiteProduit = resultFind.quantiteProduit;
+
+            localStorage.setItem("produit", JSON.stringify(produitLocalStorage));
         
-        const resultFind = produitLocalStorage.find((el) => el.qttModifValue !== quantityModif);
-
-        resultFind.quantiteProduit = qttModifValue;
-        produitLocalStorage[k].quantiteProduit = resultFind.quantiteProduit;
-
-        localStorage.setItem("produit", JSON.stringify(produitLocalStorage));
-      
-        // refresh rapide
-        location.reload();
-    })
+            // refresh rapide
+            location.reload();
+        })
+    }
 }
+modifyQtt();
 
 // Suppression d'un produit
-let btn_supprimer = document.querySelectorAll(".deleteItem");
+function deleteProduct() {
+    let btn_supprimer = document.querySelectorAll(".deleteItem");
 
-for (let j = 0; j < btn_supprimer.length; j++){
-    btn_supprimer[j].addEventListener("click" , (event) => {
-        event.preventDefault();
+    for (let j = 0; j < btn_supprimer.length; j++){
+        btn_supprimer[j].addEventListener("click" , (event) => {
+            event.preventDefault();
 
-        //Selection de l'element à supprimer en fonction de son id ET sa couleur
-        let idDelete = produitLocalStorage[j].idProduit;
-        let colorDelete = produitLocalStorage[j].couleurProduit;
+            //Selection de l'element à supprimer en fonction de son id ET sa couleur
+            let idDelete = produitLocalStorage[j].idProduit;
+            let colorDelete = produitLocalStorage[j].couleurProduit;
 
-        produitLocalStorage = produitLocalStorage.filter( el => el.idProduit !== idDelete || el.couleurProduit !== colorDelete );
-        
-        localStorage.setItem("produit", JSON.stringify(produitLocalStorage));
+            produitLocalStorage = produitLocalStorage.filter( el => el.idProduit !== idDelete || el.couleurProduit !== colorDelete );
+            
+            localStorage.setItem("produit", JSON.stringify(produitLocalStorage));
 
-        //Alerte produit supprimé et refresh
-        alert("Ce produit a bien été supprimé du panier");
-        location.reload();
-    })
+            //Alerte produit supprimé et refresh
+            alert("Ce produit a bien été supprimé du panier");
+            location.reload();
+        })
+    }
 }
+deleteProduct();
+
+//Instauration formulaire avec regex
+function getForm() {
+    // Ajout des Regex
+    let form = document.querySelector(".cart__order__form");
+
+    //Création des expressions régulières
+    let emailRegExp = new RegExp('^[a-zA-Z0-9.-_]+[@]{1}[a-zA-Z0-9.-_]+[.]{1}[a-z]{2,10}$', 'g');
+    let charRegExp = new RegExp("^[a-zA-Z ,.'-]+$");
+    let addressRegExp = new RegExp("^[0-9]{1,3}(?:(?:[,. ]){1}[-a-zA-Zàâäéèêëïîôöùûüç]+)+");
+
+    // Ecoute de la modification du prénom
+    form.firstName.addEventListener('change', function() {
+        validFirstName(this);
+    });
+
+    // Ecoute de la modification du prénom
+    form.lastName.addEventListener('change', function() {
+        validLastName(this);
+    });
+
+    // Ecoute de la modification du prénom
+    form.address.addEventListener('change', function() {
+        validAddress(this);
+    });
+
+    // Ecoute de la modification du prénom
+    form.city.addEventListener('change', function() {
+        validCity(this);
+    });
+
+    // Ecoute de la modification du prénom
+    form.email.addEventListener('change', function() {
+        validEmail(this);
+    });
+
+    //validation du prénom
+    const validFirstName = function(inputFirstName) {
+        let firstNameErrorMsg = inputFirstName.nextElementSibling;
+
+        if (charRegExp.test(inputFirstName.value)) {
+            firstNameErrorMsg.innerHTML = '';
+        } else {
+            firstNameErrorMsg.innerHTML = 'Veuillez renseigner ce champ.';
+        }
+    };
+
+    //validation du nom
+    const validLastName = function(inputLastName) {
+        let lastNameErrorMsg = inputLastName.nextElementSibling;
+
+        if (charRegExp.test(inputLastName.value)) {
+            lastNameErrorMsg.innerHTML = '';
+        } else {
+            lastNameErrorMsg.innerHTML = 'Veuillez renseigner ce champ.';
+        }
+    };
+
+    //validation de l'adresse
+    const validAddress = function(inputAddress) {
+        let addressErrorMsg = inputAddress.nextElementSibling;
+
+        if (addressRegExp.test(inputAddress.value)) {
+            addressErrorMsg.innerHTML = '';
+        } else {
+            addressErrorMsg.innerHTML = 'Veuillez renseigner ce champ.';
+        }
+    };
+
+    //validation de la ville
+    const validCity = function(inputCity) {
+        let cityErrorMsg = inputCity.nextElementSibling;
+
+        if (charRegExp.test(inputCity.value)) {
+            cityErrorMsg.innerHTML = '';
+        } else {
+            cityErrorMsg.innerHTML = 'Veuillez renseigner ce champ.';
+        }
+    };
+
+    //validation de l'email
+    const validEmail = function(inputEmail) {
+        let emailErrorMsg = inputEmail.nextElementSibling;
+
+        if (emailRegExp.test(inputEmail.value)) {
+            emailErrorMsg.innerHTML = '';
+        } else {
+            emailErrorMsg.innerHTML = 'Veuillez renseigner votre email.';
+        }
+    };
+    }
+getForm();
+
+//console.table(clientLocalStorage);
+
+//Envoi des informations client au localstorage
+function postForm(){
+    const btn_commander = document.getElementById("order");
+
+    //Ecouter le panier
+    btn_commander.addEventListener("click", (event)=>{
+    
+        //Récupération des coordonnées du formulaire client
+        let firstName = document.getElementById('firstName').value;
+        let lastName = document.getElementById('lastName').value;
+        let address = document.getElementById('address').value;
+        let city = document.getElementById('city').value;
+        let email = document.getElementById('email').value;
+
+        /*let clientForm = {
+            firstName,
+            lastName,
+            address,
+            city,
+            email
+        };
+
+        //Initialisation du local storage
+        let clientLocalStorage = JSON.parse(localStorage.getItem("client"));
+
+        clientLocalStorage =[];
+        clientLocalStorage.push(clientForm);
+        localStorage.setItem("client", JSON.stringify(clientLocalStorage));
+*/
+    const order = {
+        contact: {
+        firstName,
+        lastName,
+        city,
+        address,
+        email,
+        },
+        products: produitLocalStorage,
+    };
+
+        const options = {
+            method: 'POST',
+            body: JSON.stringify(order),
+            headers: { "Content-Type": "application/json" },
+        };
+
+        fetch("http://localhost:3000/api/products/order", options)
+        .then(res => res.json())
+        .then((data) => {
+            //localStorage.clear();
+            localStorage.setItem("orderId", data.orderId);
+            console.log("orderId");
+            //document.location.href = "confirmation.html";
+        })
+        .catch((err) => {
+            alert ("Problème avec fetch" + err.message);
+        });
+        })
+}
+postForm();

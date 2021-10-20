@@ -2,8 +2,9 @@ var str = window.location.href;
 var url = new URL(str);
 var idProduct = url.searchParams.get("id");
 console.log(idProduct);
+let article = "";
 
-const colorPicked = document.querySelector("#colors");
+const colorPicked = document. querySelector("#colors");
 const quantityPicked = document.querySelector("#quantity");
 
 getArticle();
@@ -11,46 +12,53 @@ getArticle();
 // Récupération des articles de l'API
 function getArticle() {
     fetch("http://localhost:3000/api/products/" + idProduct)
-    .then(function (res) {
+    .then((res) => {
         return res.json();
+    })
+
+    // Répartition des données de l'API dans le DOM 
+    .then(async function (resultatAPI) {
+        article = await resultatAPI;
+        console.table(article);
+        if (article){
+            getPost(article);
+        }
     })
     .catch((error) => {
         console.log("Erreur de la requête API");
     })
+}
+    
+function getPost(article){
+    // Insertion de l'image
+    let productImg = document.createElement("img");
+    document.querySelector(".item__img").appendChild(productImg);
+    productImg.src = article.imageUrl;
+    productImg.alt = article.altTxt;
 
-    // Répartition des données de l'API dans le DOM
-    .then(function (resultatAPI) {
-        const article = resultatAPI;
-        console.table(article);
+    // Modification du titre "h1"
+    let productName = document.getElementById('title');
+    productName.innerHTML = article.name;
 
-        // Insertion de l'image
-        let productImg = document.createElement("img");
-        document.querySelector(".item__img").appendChild(productImg);
-        productImg.src = article.imageUrl;
-        productImg.alt = article.altTxt;
+    // Modification du prix
+    let productPrice = document.getElementById('price');
+    productPrice.innerHTML = article.price;
 
-        // Modification du titre "h1"
-        let productName = document.getElementById('title');
-        productName.innerHTML = article.name;
+    // Modification de la description
+    let productDescription = document.getElementById('description');
+    productDescription.innerHTML = article.description;
 
-        // Modification du prix
-        let productPrice = document.getElementById('price');
-        productPrice.innerHTML = article.price;
+    // Insertion des options de couleurs
+    for (let colors of article.colors){
+        console.table(colors);
+        let productColors = document.createElement("option");
+        document.querySelector("#colors").appendChild(productColors);
+        productColors.value = colors;
+        productColors.innerHTML = colors;
+    }
 
-        // Modification de la description
-        let productDescription = document.getElementById('description');
-        productDescription.innerHTML = article.description;
-
-        // Insertion des options de couleurs
-        for (let colors of article.colors){
-            console.table(colors);
-            let productColors = document.createElement("option");
-            document.querySelector("#colors").appendChild(productColors);
-            productColors.value = colors;
-            productColors.innerHTML = colors;
-        }
-
-        //Gestion du panier
+    //Gestion du panier
+    function addToCart() {
         const btn_envoyerPanier = document.querySelector("#addToCart");
 
         //Ecouter le panier avec 2 conditions couleur non nulle et quantité entre 1 et 100
@@ -115,5 +123,6 @@ Pour consulter votre panier, cliquez sur OK`)){
             popupConfirmation();
         }}
         });
-    });
+    }
+    addToCart();
 }
