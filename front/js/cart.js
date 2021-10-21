@@ -176,7 +176,7 @@ function getForm() {
     let form = document.querySelector(".cart__order__form");
 
     //Création des expressions régulières
-    let emailRegExp = new RegExp('^[a-zA-Z0-9.-_]+[@]{1}[a-zA-Z0-9.-_]+[.]{1}[a-z]{2,10}$', 'g');
+    let emailRegExp = new RegExp('^[a-zA-Z0-9.-_]+[@]{1}[a-zA-Z0-9.-_]+[.]{1}[a-z]{2,10}$');
     let charRegExp = new RegExp("^[a-zA-Z ,.'-]+$");
     let addressRegExp = new RegExp("^[0-9]{1,3}(?:(?:[,. ]){1}[-a-zA-Zàâäéèêëïîôöùûüç]+)+");
 
@@ -262,8 +262,6 @@ function getForm() {
     }
 getForm();
 
-//console.table(clientLocalStorage);
-
 //Envoi des informations client au localstorage
 function postForm(){
     const btn_commander = document.getElementById("order");
@@ -272,54 +270,50 @@ function postForm(){
     btn_commander.addEventListener("click", (event)=>{
     
         //Récupération des coordonnées du formulaire client
-        let firstName = document.getElementById('firstName').value;
-        let lastName = document.getElementById('lastName').value;
-        let address = document.getElementById('address').value;
-        let city = document.getElementById('city').value;
-        let email = document.getElementById('email').value;
+        let inputName = document.getElementById('firstName');
+        let inputLastName = document.getElementById('lastName');
+        let inputAdress = document.getElementById('address');
+        let inputCity = document.getElementById('city');
+        let inputMail = document.getElementById('email');
 
-        /*let clientForm = {
-            firstName,
-            lastName,
-            address,
-            city,
-            email
-        };
+        //Construction d'un array depuis le local storage
+        let idProducts = [];
+        for (let i = 0; i<produitLocalStorage.length;i++) {
+            idProducts.push(produitLocalStorage[i].idProduit);
+        }
+        console.log(idProducts);
 
-        //Initialisation du local storage
-        let clientLocalStorage = JSON.parse(localStorage.getItem("client"));
-
-        clientLocalStorage =[];
-        clientLocalStorage.push(clientForm);
-        localStorage.setItem("client", JSON.stringify(clientLocalStorage));
-*/
-    const order = {
-        contact: {
-        firstName,
-        lastName,
-        city,
-        address,
-        email,
-        },
-        products: produitLocalStorage,
-    };
+        const order = {
+            contact : {
+                firstName: inputName.value,
+                lastName: inputLastName.value,
+                address: inputAdress.value,
+                city: inputCity.value,
+                email: inputMail.value,
+            },
+            products: idProducts,
+        } 
 
         const options = {
             method: 'POST',
             body: JSON.stringify(order),
-            headers: { "Content-Type": "application/json" },
+            headers: {
+                'Accept': 'application/json', 
+                "Content-Type": "application/json" 
+            },
         };
 
         fetch("http://localhost:3000/api/products/order", options)
-        .then(res => res.json())
+        .then((response) => response.json())
         .then((data) => {
-            //localStorage.clear();
+            console.log(data);
+            localStorage.clear();
             localStorage.setItem("orderId", data.orderId);
-            console.log("orderId");
-            //document.location.href = "confirmation.html";
+
+            document.location.href = "confirmation.html";
         })
         .catch((err) => {
-            alert ("Problème avec fetch" + err.message);
+            alert ("Problème avec fetch : " + err.message);
         });
         })
 }
