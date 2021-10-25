@@ -1,4 +1,4 @@
-# ![left 100%](https://github.com/thierry-laval/archives/blob/master/images/Logo_OpenClassrooms.png?raw=true) OpenClassrooms - Développeur Web - Site ecommerce en JavaScript
+# ![left 100%](https://github.com/thierry-laval/archives/blob/master/images/Logo_OpenClassrooms.png?raw=true) OpenClassrooms - Développeur Web - Site e-commerce en JavaScript
 
 ## Auteur
 
@@ -8,13 +8,13 @@
 * LinkedIn: [@Guillaume Aubin](https://www.linkedin.com/in/aubinguillaume/ "Visitez mon profil LinkedIn")
 
 ***
-## 📎 Projet 5 - Construisez un site ecommerce en JavaScript "Kanap"
+## 📎 Projet 5 - Construisez un site e-commerce en JavaScript "Kanap"
 
 ### Créer des interfaces dynamiques
 
 Le site hébergé sur GitHub : [Kanap](https://github.com/GuillaumeAubin/GuillaumeAubin_5_07102021)
 
-#### 🔨 Construire un site Web ecommerce en Javascript
+#### 🔨 Construire un site Web e-commerce en Javascript
 
 ##### Compétences évaluées
 
