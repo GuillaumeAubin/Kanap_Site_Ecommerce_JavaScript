@@ -12,7 +12,7 @@
 
 ### Créer des interfaces dynamiques
 
-Le site hébergé sur GitHub : [Kanap](https://github.com/GuillaumeAubin/GuillaumeAubin_5_07102021)
+Le site hébergé sur GitHub : [Kanap](https://github.com/GuillaumeAubin/Kanap_Site_Ecommerce_JavaScript)
 
 #### 🔨 Construire un site Web e-commerce en Javascript
 
