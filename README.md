@@ -1,15 +1,31 @@
-# Kanap #
+# ![left 100%](https://github.com/thierry-laval/archives/blob/master/images/Logo_OpenClassrooms.png?raw=true) OpenClassrooms - Développeur Web - Site e-commerce en JavaScript
 
-This is the front end and back end server for Project 5 of the Web Developer path.
+## Auteur
 
-### Back end Prerequisites ###
+👤 &nbsp; **Guillaume AUBIN**
 
-You will need to have Node and `npm` installed locally on your machine.
+* GitHub: [@Guillaume Aubin](https://github.com/GuillaumeAubin?tab=repositories "Cliquez pour voir mes projets")
+* LinkedIn: [@Guillaume Aubin](https://www.linkedin.com/in/aubinguillaume/ "Visitez mon profil LinkedIn")
 
-### Back end Installation ###
+***
+## 📎 Projet 5 - Construisez un site e-commerce en JavaScript "Kanap"
 
-Clone this repo. From the "back" folder of the project, run `npm install`. You 
-can then run the server with `node server`. 
-The server should run on `localhost` with default port `3000`. If the
-server runs on another port for any reason, this is printed to the
-console when the server starts, e.g. `Listening on port 3001`.
+### Créer des interfaces dynamiques
+
+Le site hébergé sur GitHub : [Kanap](https://github.com/GuillaumeAubin/Kanap_Site_Ecommerce_JavaScript)
+
+#### 🔨 Construire un site Web e-commerce en Javascript
+
+##### Compétences évaluées
+
+* Gérer des événements JavaScript
+* Valider des données issues de sources externes
+* Créer un plan de test pour une application
+* Interagir avec un web service avec JavaScript
+* Respecter les [spécifications fonctionnelles et techniques](https://s3.eu-west-1.amazonaws.com/course.oc-static.com/projects/DWJ_FR_P5/DW+P5+-+Specifications+fonctionnelles.pdf "voir les spécifications")
+
+***
+
+### Travail réalisé
+
+Veuillez me contacter pour découvrir l'intégralité du travail réalisé.
