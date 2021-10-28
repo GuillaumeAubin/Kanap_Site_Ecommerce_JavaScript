@@ -68,7 +68,7 @@ function addToCart(article) {
         if (quantityPicked.value > 0 && quantityPicked.value <=100 && quantityPicked.value != 0){
 
     //Recupération du choix de la couleur
-    let choixCouleur = quantityPicked.value;
+    let choixCouleur = colorPicked.value;
                 
     //Recupération du choix de la quantité
     let choixQuantite = quantityPicked.value;
